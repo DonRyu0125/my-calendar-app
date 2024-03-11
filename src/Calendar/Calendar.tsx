@@ -77,21 +77,25 @@ const Calendar = () => {
         <button onClick={nextMonth}>&gt;</button>
       </div>
       <div style={{ width: 630 }}>
-        <div style={{ display: "flex"}}>
+        <div style={{ display: "flex" }}>
           {daysOfWeek.map((item, key) => {
-            return <div key={key} style={{textAlign:'right',width:90}}>{item}</div>;
+            return (
+              <div key={key} style={{ textAlign: "right", width: 90 }}>
+                {item}
+              </div>
+            );
           })}
         </div>
         {weeks().map((week, weekIndex) => (
           <div key={weekIndex} style={{ display: "flex" }}>
             {week.map((dayObj: any, dayIndex) => (
-              <div key={dayIndex} style={{width:90 ,height:100, textAlign: "center", borderStyle:'inset',boxSizing:'border-box'}}>
+              <div key={dayIndex} style={{ width: 90, height: 100, textAlign: "center", borderStyle: "inset", boxSizing: "border-box" }}>
                 <div>{dayObj.day}</div>
                 <div>
                   {currentEvent.length > 0 &&
-                    currentEvent.map((item, key) => {
+                    currentEvent.map((item: { "event-name": string; "event-date": string }) => {
                       if (changeStrToDate(item["event-date"]).day == dayObj.day && changeStrToDate(item["event-date"]).month == dayObj.month) {
-                        return item["event-name"];
+                        return item["event-name"]?.substring(0, 10);
                       }
                     })}
                 </div>
