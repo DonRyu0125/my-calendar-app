@@ -1,10 +1,14 @@
 // Calendar.js
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Calendar = () => {
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const [currentDate, setCurrentDate] = useState(new Date());
+
+  useEffect(()=>{
+
+  },[])
 
   const daysInMonth = (date: Date) => {
     const year = date.getFullYear();
