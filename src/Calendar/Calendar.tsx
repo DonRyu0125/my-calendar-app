@@ -1,13 +1,14 @@
 // Calendar.js
 
 import React, { useEffect, useState } from "react";
+import { fetch_get } from "./API";
 
 const Calendar = () => {
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(()=>{
-
+    fetch_get('MONTHLY_CALENDAR')
   },[])
 
   const daysInMonth = (date: Date) => {
