@@ -1,20 +1,20 @@
-import axios from 'axios';
-import { XMLParser } from 'fast-xml-parser';
+import axios from "axios";
+import X2JS from "x2js";
 
-const base_url = 'http://norfolk_test.minisisinc.com';
-const parser = new XMLParser();
+const base_url = "http://norfolk_test.minisisinc.com";
 
-export const fetch_get = async (monthReport:string) => {
+export const fetch_get = async (monthReport: string) => {
   try {
-    const response:any = await axios.get(`${base_url}/scripts/mwimain.dll/144/M2L_TAG/${monthReport}?commandsearch&exp=tag_type calendar`);
+    const response = await axios.get(`${base_url}/scripts/mwimain.dll/144/M2L_TAG/${monthReport}?commandsearch&exp=tag_type calendar`, {
+      headers: {
+        "Content-Type": "text/xml",
+      },
+    });
 
-    let jObj = parser.parse(response);
-    console.log('jObj',jObj)
-
-    return;
+    const x2js = new X2JS();
+    const jsonData: any = x2js.xml2js(response?.data);
+    return jsonData.div.xml.event;
   } catch (error) {
-    console.error('Error in GET request:', error);
-    throw error;
+    throw error; 
   }
-
 };
