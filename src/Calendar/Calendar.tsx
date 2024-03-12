@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { fetch_get } from "./API";
+import Filter from "./Filter";
 
 const Calendar = () => {
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentEvent, setCurrentEvent] = useState([]);
+  const [currentFilter,setCurrentFilter] = useState<string[]>([]);
 
   useEffect(() => {
     getData();
@@ -75,6 +77,7 @@ const Calendar = () => {
         <button onClick={prevMonth}>&lt;</button>
         <h2>{currentDate.toLocaleString("default", { month: "long", year: "numeric" })}</h2>
         <button onClick={nextMonth}>&gt;</button>
+        <Filter setCurrentFilter={setCurrentFilter}/>
       </div>
       <div style={{ width: 630 }}>
         <div style={{ display: "flex" }}>
