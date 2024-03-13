@@ -6,7 +6,7 @@ const Calendar = () => {
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentEvent, setCurrentEvent] = useState([]);
-  const [currentFilter,setCurrentFilter] = useState<string[]>([]);
+  const [currentFilter, setCurrentFilter] = useState<string[]>([]);
 
   useEffect(() => {
     getData();
@@ -74,10 +74,10 @@ const Calendar = () => {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <div style={{ display: "flex" }}>
-        <button onClick={prevMonth}>&lt;</button>
-        <h2>{currentDate.toLocaleString("default", { month: "long", year: "numeric" })}</h2>
-        <button onClick={nextMonth}>&gt;</button>
-        <Filter setCurrentFilter={setCurrentFilter}/>
+        <button  className="border-2 border-black-500 w-10" onClick={prevMonth}>&lt;</button>
+        <h2 className="text-xl ">{currentDate.toLocaleString("default", { month: "long", year: "numeric" })}</h2>
+        <button  className="border-2 border-black-500  w-10" onClick={nextMonth}>&gt;</button>
+        <Filter setCurrentFilter={setCurrentFilter} />
       </div>
       <div style={{ width: 630 }}>
         <div style={{ display: "flex" }}>
@@ -92,13 +92,13 @@ const Calendar = () => {
         {weeks().map((week, weekIndex) => (
           <div key={weekIndex} style={{ display: "flex" }}>
             {week.map((dayObj: any, dayIndex) => (
-              <div key={dayIndex} style={{ width: 90, height: 100, textAlign: "center", borderStyle: "inset", boxSizing: "border-box" }}>
+              <div key={dayIndex} style={{ width: 90, height: 100, textAlign: "center" }} className="border-2 border-black-500">
                 <div>{dayObj.day}</div>
                 <div>
                   {currentEvent.length > 0 &&
-                    currentEvent.map((item: { "event-name": string; "event-date": string }) => {
+                    currentEvent.map((item: { "event-name": string; "event-date": string; "event-loc":string }) => {
                       if (changeStrToDate(item["event-date"]).day == dayObj.day && changeStrToDate(item["event-date"]).month == dayObj.month) {
-                        return item["event-name"]?.substring(0, 10);
+                        return `${item["event-name"]?.substring(0, 10)} ${item["event-loc"]}`;
                       }
                     })}
                 </div>
