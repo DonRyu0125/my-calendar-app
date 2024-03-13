@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { fetch_get } from "./API";
 import Filter from "./Filter";
-import { Cal_event } from "@/interface";
+import { Cal_event, Day_obj } from "@/interface";
 
 export const FILTER_TYPE = "event-loc";
+export const MON_REPORT_TYPES = ["MONTHLY_CALENDAR", "NEXT_MONTH_CALENDAR", "NEXT_TWO_MONTH_CALENDAR", "NEXT_THREE_MONTH_CALENDAR", "NEXT_FOUR_MONTH_CALENDAR", "NEXT_FIVE_MONTH_CALENDAR"];
 
 const Calendar = () => {
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [currentEvent, setCurrentEvent] = useState([]);
+  const [currentEvent, setCurrentEvent] = useState<Cal_event[]>([]);
   const [currentFilter, setCurrentFilter] = useState<string[]>([]);
 
   useEffect(() => {
@@ -78,7 +79,7 @@ const Calendar = () => {
     return { month, day };
   };
 
-  const eventTag = (dayObj) => {
+  const eventTag = (dayObj: Day_obj) => {
     if (currentFilter.length > 0) {
       return currentEvent.map((item: Cal_event) => {
         return currentFilter.map((type) => {

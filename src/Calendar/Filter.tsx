@@ -5,7 +5,7 @@ import { Cal_event } from "@/interface";
 
 interface MyComponentProps {
   setCurrentFilter: React.Dispatch<React.SetStateAction<string[]>>;
-  currentEvent: any;
+  currentEvent: Cal_event[];
 }
 
 const Filter: React.FC<MyComponentProps> = ({ setCurrentFilter, currentEvent }) => {
@@ -25,18 +25,26 @@ const Filter: React.FC<MyComponentProps> = ({ setCurrentFilter, currentEvent }) 
     setCurrentFilter(Object.keys(map));
   };
 
+  const showFilter = (currentEvent:Cal_event[]) => {
+    let set = new Set();
+    currentEvent?.map((item:Cal_event) => {
+      set.add(item["event-loc"]);
+    });
+
+    return Array.from(set).map((item:any,key) => {
+      return (
+        <label key={key}>
+          <input type="checkbox" onChange={handleChange} name={item} />
+          {item}
+        </label>
+      );
+    });
+
+  };
+
   return (
     <div>
-      <div>
-        {currentEvent?.map((item: Cal_event, key: number) => {
-          return (
-            <label key={key}>
-              <input type="checkbox" onChange={handleChange} name={item["event-loc"]} />
-              {item["event-loc"]}
-            </label>
-          );
-        })}
-      </div>
+      <div>{showFilter(currentEvent)}</div>
     </div>
   );
 };

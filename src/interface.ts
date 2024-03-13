@@ -7,7 +7,10 @@ interface Cal_event {
   "event-loc": string;
 }
 
+interface Day_obj {
+  day: number;
+  month: number;
+  year: number;
+}
 
-
-
-export type { Cal_event };
+export type { Cal_event, Day_obj };
