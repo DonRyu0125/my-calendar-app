@@ -4,6 +4,9 @@ import Filter from "./Filter";
 import { Cal_event, Day_obj } from "@/interface";
 
 export const FILTER_TYPE = "event-loc";
+export const EVENT_DATE = "event-date";
+export const EVENT_NAME = "event-name";
+export const EVENT_COLORS = ["red", "yellow", "green", "orange", "purple", "grey", "CadetBlue", "DarkKhaki","DeepPink"];
 export const MON_REPORT_TYPES = ["MONTHLY_CALENDAR", "NEXT_MONTH_CALENDAR", "NEXT_TWO_MONTH_CALENDAR", "NEXT_THREE_MONTH_CALENDAR", "NEXT_FOUR_MONTH_CALENDAR", "NEXT_FIVE_MONTH_CALENDAR"];
 
 const Calendar = () => {
@@ -14,14 +17,16 @@ const Calendar = () => {
 
   useEffect(() => {
     getData();
-  }, [currentDate]);
+  }, []);
 
   const getData = async () => {
     const currE = await fetch_get("MONTHLY_CALENDAR");
     let currFilter = [];
-    currFilter = currE.map((item: Cal_event) => {
-      return item[FILTER_TYPE];
-    });
+    // currFilter = currE.map((item: Cal_event) => {
+    //   return {
+    //     ...item
+    //   };
+    // });
     setCurrentEvent(currE);
   };
 
@@ -43,9 +48,6 @@ const Calendar = () => {
 
     for (let i = 1; i <= days; i++) {
       calendarArray.push({ day: i, month: currentDate.getMonth() + 1, year: currentDate.getFullYear() });
-      // let newDate = firstDayOfMonth.setDate(currentDate.getDate() + i);
-      // const dateObject = new Date(newDate);
-      // calendarArray.push(dateObject);
     }
 
     return calendarArray;
@@ -83,15 +85,15 @@ const Calendar = () => {
     if (currentFilter.length > 0) {
       return currentEvent.map((item: Cal_event) => {
         return currentFilter.map((type) => {
-          if (type === item[FILTER_TYPE] && changeStrToDate(item["event-date"]).day == dayObj.day && changeStrToDate(item["event-date"]).month == dayObj.month) {
-            return `${item["event-name"]?.substring(0, 10)} ${item["event-loc"]}`;
+          if (type === item[FILTER_TYPE] && changeStrToDate(item[EVENT_DATE]).day == dayObj.day && changeStrToDate(item[EVENT_DATE]).month == dayObj.month) {
+            return `${item[EVENT_NAME]?.substring(0, 10)} ${item[FILTER_TYPE]}`;
           }
         });
       });
     } else {
       return currentEvent.map((item: Cal_event) => {
-        if (changeStrToDate(item["event-date"]).day == dayObj.day && changeStrToDate(item["event-date"]).month == dayObj.month) {
-          return `${item["event-name"]?.substring(0, 10)} ${item["event-loc"]}`;
+        if (changeStrToDate(item[EVENT_DATE]).day == dayObj.day && changeStrToDate(item[EVENT_DATE]).month == dayObj.month) {
+          return `${item[EVENT_NAME]?.substring(0, 10)} ${item[FILTER_TYPE]}`;
         }
       });
     }

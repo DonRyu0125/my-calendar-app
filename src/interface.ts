@@ -13,4 +13,9 @@ interface Day_obj {
   year: number;
 }
 
-export type { Cal_event, Day_obj };
+interface Filter_color{
+    type:string,
+    color:string
+}
+
+export type { Cal_event, Day_obj,Filter_color };
