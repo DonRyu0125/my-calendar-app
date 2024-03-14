@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import * as Checkbox from "@radix-ui/react-checkbox";
 import { CheckIcon } from "@radix-ui/react-icons";
 import { Cal_event, Filter_color } from "@/interface";
@@ -10,10 +10,10 @@ interface MyComponentProps {
 }
 
 const Filter: React.FC<MyComponentProps> = ({ setCurrentFilter, currentEvent }) => {
-  const [checked, setChecked] = useState<any>({});
   const [selectType, setSelectedType] = useState<any>({});
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, chk_idx: number) => {
     let map = selectType;
     if (map[e.target.name] > 0) {
       delete map[e.target.name];
@@ -27,31 +27,37 @@ const Filter: React.FC<MyComponentProps> = ({ setCurrentFilter, currentEvent }) 
 
   const showFilter = (currentEvent: Cal_event[]) => {
     let set = new Set();
-    let filter_color_map = []
-    
+    let filter_color_map = [];
+
     currentEvent?.map((item: Cal_event) => {
       set.add(item[FILTER_TYPE]);
     });
 
-    filter_color_map = Array.from(set).map((item,key)=>{
-        return {type:item,color:EVENT_COLORS[key]}
-    })
+    filter_color_map = Array.from(set).map((item, key) => {
+     
+      return { type: item, color: EVENT_COLORS[key] };
+    });
 
-    // setCurrentFilter(filter_color_map)
-
-    return filter_color_map.map((item: any, key) => {
+    return filter_color_map.map((item: any, key: number) => {
       return (
         <label key={key}>
-          <input type="checkbox" onChange={(e) => handleChange(e)} name={item.type} />
+         
+          <input type="checkbox" checked={selectType[item.type] === 1} onChange={(e) => handleChange(e, key)} name={item.type} />
           {item.type}
         </label>
       );
     });
   };
 
+  const resetFilter = () =>{
+    setSelectedType({});
+    setCurrentFilter([]);
+  }
+
   return (
     <div>
       <div>{showFilter(currentEvent)}</div>
+      <button onClick={resetFilter}>Reset</button>
     </div>
   );
 };
