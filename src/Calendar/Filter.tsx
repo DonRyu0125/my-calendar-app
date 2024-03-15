@@ -12,8 +12,7 @@ interface MyComponentProps {
 const Filter: React.FC<MyComponentProps> = ({ setCurrentFilter, currentEvent }) => {
   const [selectType, setSelectedType] = useState<any>({});
 
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, chk_idx: number) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let map = selectType;
     if (map[e.target.name] > 0) {
       delete map[e.target.name];
@@ -34,25 +33,27 @@ const Filter: React.FC<MyComponentProps> = ({ setCurrentFilter, currentEvent }) 
     });
 
     filter_color_map = Array.from(set).map((item, key) => {
-     
       return { type: item, color: EVENT_COLORS[key] };
     });
 
     return filter_color_map.map((item: any, key: number) => {
       return (
-        <label key={key}>
-         
-          <input type="checkbox" checked={selectType[item.type] === 1} onChange={(e) => handleChange(e, key)} name={item.type} />
-          {item.type}
+        <label key={key} style={{display:'flex'}}>
+          <input  type="checkbox" checked={selectType[item.type] === 1} 
+          onChange={(e) => handleChange(e)} name={item.type} />
+          <div style={{backgroundColor:`${item.color}`}}>{item.type}</div>
         </label>
       );
     });
   };
 
-  const resetFilter = () =>{
+  // Put type color at the array
+  // Get the type during comparing
+
+  const resetFilter = () => {
     setSelectedType({});
     setCurrentFilter([]);
-  }
+  };
 
   return (
     <div>

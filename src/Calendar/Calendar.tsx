@@ -6,7 +6,7 @@ import { Cal_event, Day_obj } from "@/interface";
 export const FILTER_TYPE = "event-loc";
 export const EVENT_DATE = "event-date";
 export const EVENT_NAME = "event-name";
-export const EVENT_COLORS = ["red", "yellow", "green", "orange", "purple", "grey", "CadetBlue", "DarkKhaki","DeepPink"];
+export const EVENT_COLORS = ["red", "yellow", "green", "orange", "purple", "grey", "CadetBlue", "DarkKhaki", "DeepPink"];
 export const MON_REPORT_TYPES = ["MONTHLY_CALENDAR", "NEXT_MONTH_CALENDAR", "NEXT_TWO_MONTH_CALENDAR", "NEXT_THREE_MONTH_CALENDAR", "NEXT_FOUR_MONTH_CALENDAR", "NEXT_FIVE_MONTH_CALENDAR"];
 
 const Calendar = () => {
@@ -14,6 +14,7 @@ const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentEvent, setCurrentEvent] = useState<Cal_event[]>([]);
   const [currentFilter, setCurrentFilter] = useState<string[]>([]);
+  const [filterColorType, setFilterColorType] = useState();
 
   useEffect(() => {
     getData();
@@ -21,12 +22,17 @@ const Calendar = () => {
 
   const getData = async () => {
     const currE = await fetch_get("MONTHLY_CALENDAR");
-    let currFilter = [];
-    // currFilter = currE.map((item: Cal_event) => {
-    //   return {
-    //     ...item
-    //   };
-    // });
+    let set = new Set();
+    let arr = [];
+
+    currE.map((item: Cal_event) => {
+      set.add(item[FILTER_TYPE]);
+    });
+    arr = Array.from(set).map((item, key) => {
+      return { type: item, color: EVENT_COLORS[key] };
+    });
+
+    setFilterColorType(arr);
     setCurrentEvent(currE);
   };
 
@@ -86,17 +92,24 @@ const Calendar = () => {
       return currentEvent.map((item: Cal_event) => {
         return currentFilter.map((type) => {
           if (type === item[FILTER_TYPE] && changeStrToDate(item[EVENT_DATE]).day == dayObj.day && changeStrToDate(item[EVENT_DATE]).month == dayObj.month) {
-            return `${item[EVENT_NAME]?.substring(0, 10)} ${item[FILTER_TYPE]}`;
+            return `${item[EVENT_NAME]?.substring(0, 10)} ${item[FILTER_TYPE]} ${getColor(item[FILTER_TYPE])}`;
           }
         });
       });
     } else {
       return currentEvent.map((item: Cal_event) => {
         if (changeStrToDate(item[EVENT_DATE]).day == dayObj.day && changeStrToDate(item[EVENT_DATE]).month == dayObj.month) {
-          return `${item[EVENT_NAME]?.substring(0, 10)} ${item[FILTER_TYPE]}`;
+          return `${item[EVENT_NAME]?.substring(0, 10)} ${item[FILTER_TYPE]} ${getColor(item[FILTER_TYPE])}`;
         }
       });
     }
+  };
+
+  const getColor = (event_type:String) => {
+    let result = filterColorType?.filter((item) => {
+      return item.type == event_type;
+    });
+    return result[0].color;
   };
 
   return (
@@ -121,6 +134,7 @@ const Calendar = () => {
             );
           })}
         </div>
+
         {weeks().map((week, weekIndex) => (
           <div key={weekIndex} style={{ display: "flex" }}>
             {week.map((dayObj: any, dayIndex) => (
