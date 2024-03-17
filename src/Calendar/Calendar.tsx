@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { fetch_get } from "./API";
 import Filter from "./Filter";
 import { Cal_event, Day_obj } from "@/interface";
+import filterType from '../constants/filter_type.json'
 
 export const FILTER_TYPE = "event-loc";
 export const EVENT_DATE = "event-date";
@@ -32,7 +33,6 @@ const Calendar = () => {
       return { type: item, color: EVENT_COLORS[key] };
     });
 
-    setFilterColorType(arr);
     setCurrentEvent(currE);
   };
 
@@ -92,24 +92,24 @@ const Calendar = () => {
       return currentEvent.map((item: Cal_event) => {
         return currentFilter.map((type) => {
           if (type === item[FILTER_TYPE] && changeStrToDate(item[EVENT_DATE]).day == dayObj.day && changeStrToDate(item[EVENT_DATE]).month == dayObj.month) {
-            return `${item[EVENT_NAME]?.substring(0, 10)} ${item[FILTER_TYPE]} ${getColor(item[FILTER_TYPE])}`;
+            return `${item[EVENT_NAME]?.substring(0, 10)} ${item[FILTER_TYPE]} }`;
           }
         });
       });
     } else {
       return currentEvent.map((item: Cal_event) => {
         if (changeStrToDate(item[EVENT_DATE]).day == dayObj.day && changeStrToDate(item[EVENT_DATE]).month == dayObj.month) {
-          return `${item[EVENT_NAME]?.substring(0, 10)} ${item[FILTER_TYPE]} ${getColor(item[FILTER_TYPE])}`;
+          return `${item[EVENT_NAME]?.substring(0, 10)} ${item[FILTER_TYPE]} `;
         }
       });
     }
   };
 
   const getColor = (event_type:String) => {
-    let result = filterColorType?.filter((item) => {
-      return item.type == event_type;
-    });
-    return result[0].color;
+    // let result = filterColorType?.filter((item) => {
+    //   return item.type == event_type;
+    // });
+    // return result[0].color;
   };
 
   return (

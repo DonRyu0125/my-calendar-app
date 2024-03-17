@@ -1,0 +1,32 @@
+[
+    {
+        "type": "Delhi",
+        "color":"red",
+        "icon":"square"
+    },
+    {
+        "type": "Port Dover",
+        "color":"yellow",
+        "icon":"square"
+    },
+    {
+        "type": "Port Rowan",
+        "color":"green",
+        "icon":"circle"
+    },
+    {
+        "type": "Simcore",
+        "color":"orange",
+        "icon":"circle"
+    },
+    {
+        "type": "Waterford",
+        "color":"purple",
+        "icon":"circle"
+    },
+    {
+        "type": "All",
+        "color":"grey",
+        "icon":"square"
+    }
+]
